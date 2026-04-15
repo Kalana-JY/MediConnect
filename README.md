@@ -110,16 +110,49 @@ The frontend utilizes React Router with protected routes based on the AuthContex
 
 ## API Endpoint Documentation by Features
 
-### Appointments
-- **Book**: `POST /api/appointments` (Body: `doctorId`, `date`, `time`, `patientId`)
-- **List**: `GET /api/appointments/patient/:id`
+### 🌍 Public / General (No Auth Required)
+| Method | Endpoint | Auth | Request | Response |
+|--------|----------|------|---------|----------|
+| POST | `/api/patients/auth/login` | None | `{ email, password }` | `{ token, user }` |
+| POST | `/api/patients/auth/register` | None | `{ firstName, lastName, email, password }` | `{ token, user }` |
+| POST | `/api/doctors/auth/login` | None | `{ email, password }` | `{ token, user }` |
+| POST | `/api/doctors/auth/register` | None | `{ firstName, lastName, ... }` | `{ token, user }` |
+| POST | `/api/admin/auth/login` | None | `{ email, password }` | `{ token, admin }` |
+| GET | `/api/doctors` | None | - | `List of verified doctors` |
+| GET | `/api/doctors/specializations` | None | - | `List of specialties` |
+| POST | `/api/ai-symptom/check` | None | `{ symptoms, age, gender }` | `AI suggested specialties` |
 
-### Payments
-- **Checkout**: `POST /api/payments/checkout` (Initiates payment gateway session)
-- **Confirm**: `PUT /api/payments/order/:orderId/status`
+### 🧑‍⚕️ Patient Role
+| Method | Endpoint | Auth | Request | Response |
+|--------|----------|------|---------|----------|
+| GET | `/api/patients/profile` | Patient | - | `Patient Profile` |
+| PUT | `/api/patients/profile` | Patient | `{ updates }` | `Updated Profile` |
+| POST | `/api/patients/reports` | Patient | `FormData (PDFs/Images)` | `Report added` |
+| GET | `/api/appointments/patient/:id` | Patient | - | `Patient's appointments` |
+| POST | `/api/appointments` | Patient | `{ doctorId, date, time }` | `Appointment record` |
+| POST | `/api/payments` | Patient | `{ appointmentId, amount }` | `Payment gateway intent` |
+| GET | `/api/telemedicine/:id` | Patient/Doctor | - | `Telemedicine session details` |
 
-### Notifications
-- **Trigger**: Notifications are rarely triggered directly via API by the frontend. Instead, downstream microservices (Appointment/Payment) send internal requests to `http://notification-service:3006/api/notifications/sms` or `/email`.
+### 👨‍⚕️ Doctor Role
+| Method | Endpoint | Auth | Request | Response |
+|--------|----------|------|---------|----------|
+| GET | `/api/doctors/me/profile` | Doctor | - | `Doctor Profile` |
+| PUT | `/api/doctors/profile` | Doctor | `{ updates }` | `Updated Profile` |
+| POST | `/api/doctors/availability` | Doctor | `{ date, slots }` | `Availability Created` |
+| GET | `/api/appointments/doctor/:id` | Doctor | - | `Doctor's appointments` |
+| POST | `/api/prescriptions` | Doctor | `{ patientId, medicines }` | `Prescription created` |
+| PUT | `/api/telemedicine/:id/start` | Doctor | - | `Session started successfully` |
+
+### 🛡️ Administrator Role
+| Method | Endpoint | Auth | Request | Response |
+|--------|----------|------|---------|----------|
+| GET | `/api/admin/dashboard` | Admin | - | `System metrics (counts)` |
+| GET | `/api/admin/doctors` | Admin | - | `List of all doctors` |
+| GET | `/api/admin/patients` | Admin | - | `List of all patients` |
+| PUT | `/api/admin/doctors/:id/verify` | Admin | `{ status }` | `Verification status updated` |
+| PUT | `/api/admin/patients/:id/status`| Admin | `{ status }` | `Patient status updated` |
+| GET | `/api/admin/appointments` | Admin | - | `List of all appointments` |
+| GET | `/api/admin/payments` | Admin | - | `List of all payments` |
 
 ## API Usage Notes
 
