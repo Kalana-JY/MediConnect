@@ -57,7 +57,7 @@ export const patientApi = {
 
 // ─── Doctor ──────────────────────────────────────────────────────
 export const doctorApi = {
-  register: (data) => apiRequest("/api/doctors/auth/register", { method: "POST", body: JSON.stringify(data) }),
+  register: (formData) => apiRequest("/api/doctors/auth/register", { method: "POST", body: formData }),
   login: (data) => apiRequest("/api/doctors/auth/login", { method: "POST", body: JSON.stringify(data) }),
   getAll: (params = "") => {
     const searchParams = new URLSearchParams(params);
