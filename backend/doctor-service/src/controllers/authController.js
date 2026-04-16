@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Doctor from "../models/Doctor.js";
+import { uploadToCloudinary } from "../config/cloudinary.js";
 
 /**
  * Register a new doctor.
@@ -24,6 +25,14 @@ export const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    let governmentIdUrl = "";
+    let governmentIdPublicId = "";
+    if (req.file) {
+      const uploadResult = await uploadToCloudinary(req.file.buffer, "mediconnect/doctor-ids");
+      governmentIdUrl = uploadResult.url;
+      governmentIdPublicId = uploadResult.publicId;
+    }
+
     // Create doctor (unverified by default — admin must verify)
     const doctor = new Doctor({
       title: title || "Dr",
@@ -41,16 +50,11 @@ export const register = async (req, res) => {
       bio: bio || "",
       serviceType: serviceType || "both",
       isVerified: false,
+      governmentIdUrl,
+      governmentIdPublicId,
     });
 
     await doctor.save();
-
-    // Generate JWT
-    const token = jwt.sign(
-      { id: doctor._id, email: doctor.email, role: doctor.role },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN || "7d" }
-    );
 
     const doctorResponse = doctor.toObject();
     delete doctorResponse.password;
@@ -58,7 +62,6 @@ export const register = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "Doctor registered successfully. Awaiting admin verification.",
-      token,
       doctor: doctorResponse,
     });
   } catch (error) {
@@ -82,6 +85,10 @@ export const login = async (req, res) => {
 
     if (doctor.accountStatus === "suspended") {
       return res.status(403).json({ error: "Your account has been suspended. Please contact support." });
+    }
+
+    if (!doctor.isVerified) {
+      return res.status(403).json({ error: "Your account is pending verification by an administrator." });
     }
 
     const isMatch = await bcrypt.compare(password, doctor.password);

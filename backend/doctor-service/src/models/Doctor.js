@@ -59,6 +59,14 @@ const doctorSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  governmentIdUrl: {
+    type: String,
+    default: "",
+  },
+  governmentIdPublicId: {
+    type: String,
+    default: "",
+  },
   bio: {
     type: String,
     default: "",
