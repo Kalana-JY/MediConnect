@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { symptomApi } from '../services/api';
+import { BrainCircuit, TriangleAlert } from 'lucide-react';
 
 const SymptomCheckerPage = () => {
   const [symptoms, setSymptoms] = useState('');
@@ -36,7 +37,7 @@ const SymptomCheckerPage = () => {
     <div className="flex-1 bg-[#f0f4f8]">
       <div className="bg-gradient-to-r from-[#6c3fa0] to-[#9b59b6] text-white py-12 px-6">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold">🤖 AI Symptom Checker</h1>
+          <h1 className="text-3xl font-bold flex items-center gap-3"><BrainCircuit size={32} /> AI Symptom Checker</h1>
           <p className="mt-2 text-white/80 text-[15px]">Describe your symptoms and get preliminary health suggestions</p>
         </div>
       </div>
@@ -112,13 +113,13 @@ const SymptomCheckerPage = () => {
 
                 {/* Disclaimer */}
                 <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
-                  <p className="text-[13px] text-amber-700 leading-relaxed">⚠️ {result.disclaimer}</p>
+                  <p className="text-[13px] text-amber-700 leading-relaxed flex gap-2"><TriangleAlert size={15} className="shrink-0 mt-0.5" /> {result.disclaimer}</p>
                   {result.source && <p className="text-[11px] text-amber-500 mt-2">Source: {result.source}</p>}
                 </div>
               </div>
             ) : (
               <div className="bg-white rounded-2xl shadow-md border border-[#e8edf2] p-12 text-center">
-                <p className="text-5xl mb-4">🧠</p>
+                <div className="flex justify-center mb-4"><BrainCircuit size={56} className="text-[#c8a8e0]" /></div>
                 <p className="text-[15px] text-[#6b7b8d]">Enter your symptoms to get AI-powered health suggestions</p>
                 <p className="text-[13px] text-[#8a9bae] mt-2">Our AI will analyze your symptoms and recommend specialists</p>
               </div>
