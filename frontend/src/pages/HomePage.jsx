@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { doctorApi } from '../services/api';
+import { Stethoscope, CalendarDays, BrainCircuit, Video, Pill, CreditCard, Building2 } from 'lucide-react';
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -36,12 +37,12 @@ const HomePage = () => {
   };
 
   const features = [
-    { icon: '🩺', title: 'Find Doctors', desc: 'Browse specialists by category and book instantly', link: '/doctors' },
-    { icon: '📅', title: 'Book Appointments', desc: 'Schedule visits with your preferred doctor anytime', link: '/appointments' },
-    { icon: '🤖', title: 'AI Symptom Checker', desc: 'Get preliminary health suggestions powered by AI', link: '/symptom-checker' },
-    { icon: '📹', title: 'Video Consultations', desc: 'Connect with doctors from the comfort of your home', link: '/doctors' },
-    { icon: '💊', title: 'Digital Prescriptions', desc: 'Access your prescriptions and medical records online', link: user ? '/patient/dashboard' : '/login' },
-    { icon: '💳', title: 'Secure Payments', desc: 'Pay consultation fees safely through PayHere', link: '/appointments' },
+    { icon: <Stethoscope size={28} className="text-[#1a6fa0]" />, title: 'Find Doctors', desc: 'Browse specialists by category and book instantly', link: '/doctors' },
+    { icon: <CalendarDays size={28} className="text-[#1a6fa0]" />, title: 'Book Appointments', desc: 'Schedule visits with your preferred doctor anytime', link: '/appointments' },
+    { icon: <BrainCircuit size={28} className="text-[#1a6fa0]" />, title: 'AI Symptom Checker', desc: 'Get preliminary health suggestions powered by AI', link: '/symptom-checker' },
+    { icon: <Video size={28} className="text-[#1a6fa0]" />, title: 'Video Consultations', desc: 'Connect with doctors from the comfort of your home', link: '/doctors' },
+    { icon: <Pill size={28} className="text-[#1a6fa0]" />, title: 'Digital Prescriptions', desc: 'Access your prescriptions and medical records online', link: user ? '/patient/dashboard' : '/login' },
+    { icon: <CreditCard size={28} className="text-[#1a6fa0]" />, title: 'Secure Payments', desc: 'Pay consultation fees safely through PayHere', link: '/appointments' },
   ];
 
   const stats = [
@@ -61,8 +62,8 @@ const HomePage = () => {
         </div>
         <div className="max-w-7xl mx-auto px-6 py-20 md:py-28 relative z-10">
           <div className="max-w-2xl">
-            <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-[13px] font-medium tracking-wide text-[#a0d8ef] mb-6 border border-white/10">
-              🏥 Sri Lanka's Smart Healthcare Platform
+            <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-[13px] font-medium tracking-wide text-[#a0d8ef] mb-6 border border-white/10 flex items-center gap-2 w-fit">
+              <Building2 size={14} /> Sri Lanka's Smart Healthcare Platform
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
               Your Health,{' '}
@@ -187,7 +188,7 @@ const HomePage = () => {
               key={f.title}
               className="group p-7 bg-white rounded-2xl border border-[#e8edf2] no-underline transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-[#1a6fa033]"
             >
-              <span className="text-3xl block mb-4">{f.icon}</span>
+              <div className="w-12 h-12 rounded-xl bg-[#f0f7fc] flex items-center justify-center mb-4">{f.icon}</div>
               <h3 className="text-[17px] font-bold text-[#1e2a3a] group-hover:text-[#1a6fa0] transition-colors">{f.title}</h3>
               <p className="mt-2 text-[13.5px] text-[#6b7b8d] leading-relaxed">{f.desc}</p>
             </Link>

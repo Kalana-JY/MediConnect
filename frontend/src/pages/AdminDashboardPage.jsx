@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { adminApi } from '../services/api';
+import { LayoutDashboard, Stethoscope, Users, CalendarDays, CreditCard, RotateCcw, UserCog, ShieldCheck } from 'lucide-react';
 
 const AdminDashboardPage = () => {
   const { user, logout, updateUser } = useAuth();
   const [tab, setTab] = useState('dashboard');
+  const [currentPage, setCurrentPage] = useState(1);
   const [stats, setStats] = useState(null);
   const [doctors, setDoctors] = useState([]);
   const [patients, setPatients] = useState([]);
@@ -25,7 +27,20 @@ const AdminDashboardPage = () => {
   const [profileMessage, setProfileMessage] = useState('');
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => { loadData(); }, [tab]);
+  useEffect(() => { loadData(); setCurrentPage(1); }, [tab]);
+  useEffect(() => { setCurrentPage(1); }, [doctorFilters, patientFilters, appointmentFilters, paymentFilters, dashboardRange]);
+
+  const renderPagination = (totalItems) => {
+    const totalPages = Math.ceil(totalItems / 10);
+    if (totalPages <= 1) return null;
+    return (
+      <div className="flex justify-between items-center mt-4 pt-4 border-t border-white/5">
+        <button disabled={currentPage === 1} onClick={() => setCurrentPage(p => Math.max(1, p - 1))} className="px-4 py-2 bg-white/5 text-gray-300 rounded-lg border border-white/10 cursor-pointer text-[13px] hover:bg-white/10 disabled:opacity-50 transition-all">Previous</button>
+        <span className="text-[13px] text-gray-400">Page {currentPage} of {totalPages}</span>
+        <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} className="px-4 py-2 bg-white/5 text-gray-300 rounded-lg border border-white/10 cursor-pointer text-[13px] hover:bg-white/10 disabled:opacity-50 transition-all">Next</button>
+      </div>
+    );
+  };
 
   const loadData = async () => {
     setLoading(true);
@@ -286,13 +301,13 @@ const AdminDashboardPage = () => {
   };
 
   const tabs = [
-    { key: 'dashboard', label: '📊 Dashboard' },
-    { key: 'doctors', label: '🩺 Doctors' },
-    { key: 'patients', label: '👤 Patients' },
-    { key: 'appointments', label: '📅 Appointments' },
-    { key: 'payments', label: '💳 Payments' },
-    { key: 'refunds', label: '↩️ Refund Requests' },
-    { key: 'profile', label: '✏️ Profile' },
+    { key: 'dashboard', icon: <LayoutDashboard size={14} />, label: 'Dashboard' },
+    { key: 'doctors', icon: <Stethoscope size={14} />, label: 'Doctors' },
+    { key: 'patients', icon: <Users size={14} />, label: 'Patients' },
+    { key: 'appointments', icon: <CalendarDays size={14} />, label: 'Appointments' },
+    { key: 'payments', icon: <CreditCard size={14} />, label: 'Payments' },
+    { key: 'refunds', icon: <RotateCcw size={14} />, label: 'Refund Requests' },
+    { key: 'profile', icon: <UserCog size={14} />, label: 'Profile' },
   ];
 
   return (
@@ -300,7 +315,7 @@ const AdminDashboardPage = () => {
       <div className="bg-gradient-to-r from-[#1e293b] to-[#334155] py-6 px-6 border-b border-white/5">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold">🛡️ Admin Panel</h1>
+            <h1 className="text-xl font-bold flex items-center gap-2"><ShieldCheck size={20} /> Admin Panel</h1>
             <p className="text-gray-400 text-[13px] mt-0.5">{user?.email}</p>
           </div>
           <button onClick={logout} className="px-4 py-2 bg-white/5 text-gray-300 rounded-lg border border-white/10 cursor-pointer text-[13px] hover:bg-white/10 transition-all">Logout</button>
@@ -311,8 +326,8 @@ const AdminDashboardPage = () => {
         <div className="flex gap-1 bg-[#1e293b] rounded-xl p-1 mb-6 overflow-x-auto">
           {tabs.map(t => (
             <button key={t.key} onClick={() => setTab(t.key)}
-              className={`flex-1 py-2.5 rounded-lg text-[13px] font-medium border-none cursor-pointer transition-all whitespace-nowrap px-3 ${tab === t.key ? 'bg-[#f59e0b] text-[#1e293b]' : 'bg-transparent text-gray-400 hover:text-white'}`}>
-              {t.label}
+              className={`flex-1 py-2.5 rounded-lg text-[13px] font-medium border-none cursor-pointer transition-all whitespace-nowrap px-3 flex items-center justify-center gap-1.5 ${tab === t.key ? 'bg-[#f59e0b] text-[#1e293b]' : 'bg-transparent text-gray-400 hover:text-white'}`}>
+              {t.icon}{t.label}
             </button>
           ))}
         </div>
@@ -500,7 +515,10 @@ const AdminDashboardPage = () => {
                       {d.isVerified ? (
                         <span className="px-3 py-1 bg-green-900/30 text-green-400 rounded-full text-[12px] font-medium">✓ Verified</span>
                       ) : (
-                        <button onClick={() => verifyDoc(d._id)} className="px-4 py-1.5 bg-[#f59e0b] text-[#1e293b] rounded-lg text-[12px] font-semibold border-none cursor-pointer hover:bg-[#fbbf24] transition-all">Verify</button>
+                        <>
+                          {d.governmentIdUrl && (<a href={d.governmentIdUrl} target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 bg-sky-900/30 text-sky-400 rounded-lg text-[12px] font-semibold border border-sky-800/60 no-underline hover:bg-sky-900/50 transition-all flex items-center pr-2 mr-2"><svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>View ID</a>)}
+                          <button onClick={() => verifyDoc(d._id)} className="px-4 py-1.5 bg-[#f59e0b] text-[#1e293b] rounded-lg text-[12px] font-semibold border-none cursor-pointer hover:bg-[#fbbf24] transition-all">Verify</button>
+                        </>
                       )}
                       {(d.accountStatus || 'active') === 'active' ? (
                         <button onClick={() => setDoctorStatus(d._id, 'suspended')} className="px-4 py-1.5 bg-red-900/40 text-red-300 rounded-lg text-[12px] font-semibold border border-red-800/60 cursor-pointer hover:bg-red-900/60 transition-all">Suspend</button>

@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { doctorApi, appointmentApi, telemedicineApi } from '../services/api';
+import { LayoutDashboard, CalendarDays, FileText, Clock, Pill, UserCog } from 'lucide-react';
 
 const DoctorDashboardPage = () => {
   const { user, logout, updateUser } = useAuth();
   const [tab, setTab] = useState('overview');
+  const [currentPage, setCurrentPage] = useState(1);
   const [appointments, setAppointments] = useState([]);
   const [telemedicineSessions, setTelemedicineSessions] = useState({});
   const [availability, setAvailability] = useState([]);
@@ -36,6 +38,19 @@ const DoctorDashboardPage = () => {
   const [rxForm, setRxForm] = useState({ patientId: '', patientName: '', diagnosis: '', medName: '', medDosage: '', medFrequency: '', medDuration: '', notes: '' });
 
   useEffect(() => { loadData(); }, []);
+  useEffect(() => { setCurrentPage(1); }, [tab, appointmentFilters, availabilityFilters, prescriptionSearch, patientReportSearch]);
+
+  const renderPagination = (totalItems) => {
+    const totalPages = Math.ceil(totalItems / 10);
+    if (totalPages <= 1) return null;
+    return (
+      <div className="flex justify-between items-center mt-4 pt-4 border-t border-[#e8edf2]">
+        <button disabled={currentPage === 1} onClick={() => setCurrentPage(p => Math.max(1, p - 1))} className="px-4 py-2 bg-white text-[#4a5568] rounded-lg border border-[#d0d8e0] cursor-pointer text-[13px] hover:bg-[#f8fbfd] disabled:opacity-50 transition-all">Previous</button>
+        <span className="text-[13px] text-[#6b7b8d]">Page {currentPage} of {totalPages}</span>
+        <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} className="px-4 py-2 bg-white text-[#4a5568] rounded-lg border border-[#d0d8e0] cursor-pointer text-[13px] hover:bg-[#f8fbfd] disabled:opacity-50 transition-all">Next</button>
+      </div>
+    );
+  };
   useEffect(() => {
     if (!user?._id) return;
     const intervalId = setInterval(() => {
@@ -227,12 +242,12 @@ const DoctorDashboardPage = () => {
   };
 
   const tabs = [
-    { key: 'overview', label: '📊 Overview' },
-    { key: 'appointments', label: '📅 Appointments' },
-    { key: 'patientReports', label: '📄 Patient Reports' },
-    { key: 'availability', label: '🕐 Availability' },
-    { key: 'prescriptions', label: '💊 Prescriptions' },
-    { key: 'profile', label: '✏️ Edit Profile' },
+    { key: 'overview', icon: <LayoutDashboard size={14} />, label: 'Overview' },
+    { key: 'appointments', icon: <CalendarDays size={14} />, label: 'Appointments' },
+    { key: 'patientReports', icon: <FileText size={14} />, label: 'Patient Reports' },
+    { key: 'availability', icon: <Clock size={14} />, label: 'Availability' },
+    { key: 'prescriptions', icon: <Pill size={14} />, label: 'Prescriptions' },
+    { key: 'profile', icon: <UserCog size={14} />, label: 'Edit Profile' },
   ];
 
   const statusColors = { pending: 'bg-yellow-50 text-yellow-700', confirmed: 'bg-blue-50 text-blue-700', completed: 'bg-green-50 text-green-700', cancelled: 'bg-red-50 text-red-700' };
@@ -309,8 +324,8 @@ const DoctorDashboardPage = () => {
         <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm border border-[#e8edf2] mb-6 overflow-x-auto">
           {tabs.map(t => (
             <button key={t.key} onClick={() => setTab(t.key)}
-              className={`flex-1 py-2.5 rounded-lg text-[13.5px] font-medium border-none cursor-pointer transition-all whitespace-nowrap px-3 ${tab === t.key ? 'bg-[#0d5f3a] text-white shadow-sm' : 'bg-transparent text-[#6b7b8d] hover:text-[#1e2a3a]'}`}>
-              {t.label}
+              className={`flex-1 py-2.5 rounded-lg text-[13.5px] font-medium border-none cursor-pointer transition-all whitespace-nowrap px-3 flex items-center justify-center gap-1.5 ${tab === t.key ? 'bg-[#0d5f3a] text-white shadow-sm' : 'bg-transparent text-[#6b7b8d] hover:text-[#1e2a3a]'}`}>
+              {t.icon}{t.label}
             </button>
           ))}
         </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { doctorApi } from '../services/api';
+import { GraduationCap, Sparkles, Building2, Users, NotebookPen, Star } from 'lucide-react';
 
 const DoctorProfilePage = () => {
   const { id } = useParams();
@@ -74,7 +75,7 @@ const DoctorProfilePage = () => {
               
               <div>
                 <div className="flex items-center gap-2 text-[#0b5d94]">
-                  <span className="text-lg">★</span>
+                  <Star size={17} />
                   <span className="font-semibold text-[14px]">Other Specializations</span>
                 </div>
                 <div className="text-[14px] text-[#6b7b8d] mt-2 ml-7">NA</div>
@@ -82,7 +83,7 @@ const DoctorProfilePage = () => {
 
               <div>
                 <div className="flex items-center gap-2 text-[#0b5d94]">
-                  <span className="text-lg">🎓</span>
+                  <GraduationCap size={17} />
                   <span className="font-semibold text-[14px]">Qualifications</span>
                 </div>
                 {doctor.qualifications?.length > 0 ? (
@@ -96,7 +97,7 @@ const DoctorProfilePage = () => {
 
               <div>
                 <div className="flex items-center gap-2 text-[#0b5d94]">
-                  <span className="text-lg">✨</span>
+                  <Sparkles size={17} />
                   <span className="font-semibold text-[14px]">Experience</span>
                 </div>
                 <div className="text-[14px] text-[#6b7b8d] mt-2 ml-7 flex items-center gap-1">
@@ -106,7 +107,7 @@ const DoctorProfilePage = () => {
 
               <div>
                 <div className="flex items-center gap-2 text-[#0b5d94]">
-                  <span className="text-lg">🏥</span>
+                  <Building2 size={17} />
                   <span className="font-semibold text-[14px]">Practising Government Hospitals</span>
                 </div>
                 <div className="text-[14px] text-[#6b7b8d] mt-2 ml-7 flex items-center gap-1">
@@ -116,7 +117,7 @@ const DoctorProfilePage = () => {
 
               <div>
                 <div className="flex items-center gap-2 text-[#0b5d94]">
-                  <span className="text-lg">👥</span>
+                  <Users size={17} />
                   <span className="font-semibold text-[14px]">Registration</span>
                 </div>
                 <div className="text-[14px] text-[#6b7b8d] mt-2 ml-7">{doctor.registrationNumber || 'NA'}</div>
@@ -124,7 +125,7 @@ const DoctorProfilePage = () => {
 
               <div>
                 <div className="flex items-center gap-2 text-[#0b5d94]">
-                  <span className="text-lg">📝</span>
+                  <NotebookPen size={17} />
                   <span className="font-semibold text-[14px]">Special Note</span>
                 </div>
                 <div className="text-[13px] text-[#8a9bae] mt-2 ml-7 uppercase">{doctor.specialization}</div>

@@ -10,6 +10,7 @@ const AdminRegisterPage = () => {
     email: '',
     password: '',
     confirmPassword: '',
+    inviteCode: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -43,6 +44,7 @@ const AdminRegisterPage = () => {
         lastName: form.lastName,
         email: form.email,
         password: form.password,
+        inviteCode: form.inviteCode,
       };
 
       const res = await adminApi.register(payload);
@@ -143,6 +145,19 @@ const AdminRegisterPage = () => {
                   placeholder="Repeat password"
                 />
               </div>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[12.5px] font-medium text-gray-400">Admin Invite Code *</label>
+              <input
+                type="password"
+                required
+                value={form.inviteCode}
+                onChange={(e) => handleChange('inviteCode', e.target.value)}
+                className={inputCls}
+                placeholder="Enter the invite code"
+              />
+              <p className="text-[11.5px] text-gray-500">Contact the system owner to obtain the invite code.</p>
             </div>
 
             <button

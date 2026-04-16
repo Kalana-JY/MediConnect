@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import NotificationBell from './NotificationBell';
+import { Stethoscope, ShieldCheck, User } from 'lucide-react';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -57,9 +58,9 @@ const Navbar = () => {
                 <NotificationBell />
                 <Link
                   to={getDashboardLink()}
-                  className="px-4 py-2 text-[13.5px] font-medium text-[#1a6fa0] rounded-lg no-underline hover:bg-[#f0f7fc] transition-all"
+                  className="px-4 py-2 text-[13.5px] font-medium text-[#1a6fa0] rounded-lg no-underline hover:bg-[#f0f7fc] transition-all flex items-center gap-1.5"
                 >
-                  {isDoctor ? '🩺' : isAdmin ? '🛡️' : '👤'} Dashboard
+                  {isDoctor ? <Stethoscope size={15} /> : isAdmin ? <ShieldCheck size={15} /> : <User size={15} />} Dashboard
                 </Link>
                 <button
                   onClick={logout}

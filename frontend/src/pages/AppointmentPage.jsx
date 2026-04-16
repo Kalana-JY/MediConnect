@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { appointmentApi, doctorApi, telemedicineApi } from '../services/api';
+import { MapPin } from 'lucide-react';
 
 const AppointmentPage = () => {
   const [searchParams] = useSearchParams();
@@ -240,7 +241,7 @@ const AppointmentPage = () => {
                   <div className="bg-[#f8fbfd] p-4 rounded-xl border border-[#e8edf2]">
                     <div className="font-bold text-[#1a3a4a] text-[15px] leading-snug">{form.doctorName}</div>
                     <div className="text-[13px] text-[#0b5d94] mt-1">{form.specialization}</div>
-                    <div className="text-[12px] text-[#6b7b8d] mt-2 font-medium">📍 {form.hospitalName || 'Private Clinic'}</div>
+                    <div className="text-[12px] text-[#6b7b8d] mt-2 font-medium flex items-center gap-1"><MapPin size={12} /> {form.hospitalName || 'Private Clinic'}</div>
                   </div>
                   
                   {form.appointmentDate && form.appointmentTime && (
