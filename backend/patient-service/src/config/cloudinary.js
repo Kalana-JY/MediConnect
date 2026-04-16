@@ -1,13 +1,14 @@
 import { v2 as cloudinary } from "cloudinary";
 import multer from "multer";
 
+// Parse cloudinary://api_key:api_secret@cloud_name
 const cloudinaryUrl = process.env.CLOUDINARY_URL || "";
-const parsedUrl = cloudinaryUrl ? new URL(cloudinaryUrl) : null;
+const cloudinaryMatch = cloudinaryUrl.match(/^cloudinary:\/\/([^:]+):([^@]+)@(.+)$/);
 
 cloudinary.config({
-  cloud_name: parsedUrl?.hostname || "",
-  api_key: parsedUrl?.username || "",
-  api_secret: parsedUrl?.password || "",
+  api_key: cloudinaryMatch?.[1] || "",
+  api_secret: cloudinaryMatch?.[2] || "",
+  cloud_name: cloudinaryMatch?.[3] || "",
   signature_algorithm: "sha256",
 });
 

@@ -46,6 +46,11 @@ spec:
               value: "http://appointment-service:3000"
             - name: PAYMENT_SERVICE_URL
               value: "http://payment-service:3001"
+            - name: ADMIN_INVITE_CODE
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: ADMIN_INVITE_CODE
 ---
 apiVersion: v1
 kind: Service

@@ -195,8 +195,18 @@ export const confirmAppointment = async (req, res) => {
         appointment.paymentStatus = "paid";
         await appointment.save();
 
+        let doctorInfo = null;
         try {
-            await sendAppointmentBookedNotification(appointment);
+            const doctorResponse = await fetch(`${DOCTOR_SERVICE_URL}/api/doctors/${appointment.doctorId}`);
+            if (doctorResponse.ok) {
+                doctorInfo = await doctorResponse.json();
+            }
+        } catch (err) {
+            console.warn("Failed to fetch doctor details for notification:", err.message);
+        }
+
+        try {
+            await sendAppointmentBookedNotification(appointment, doctorInfo);
         } catch (notificationError) {
             console.warn("Appointment confirmed, but notification failed:", notificationError.message);
         }
@@ -322,8 +332,18 @@ export const cancelAppointment = async (req, res) => {
 
         await appointment.save();
 
+        let doctorInfo = null;
         try {
-            await sendAppointmentCancelledNotification(appointment);
+            const doctorResponse = await fetch(`${DOCTOR_SERVICE_URL}/api/doctors/${appointment.doctorId}`);
+            if (doctorResponse.ok) {
+                doctorInfo = await doctorResponse.json();
+            }
+        } catch (err) {
+            console.warn("Failed to fetch doctor details for cancellation notification:", err.message);
+        }
+
+        try {
+            await sendAppointmentCancelledNotification(appointment, doctorInfo);
         } catch (notificationError) {
             console.warn("Appointment cancelled, but notification failed:", notificationError.message);
         }
@@ -469,8 +489,19 @@ export const respondToAppointment = async (req, res) => {
             appointment.appointmentStatus = "confirmed";
         } else {
             appointment.appointmentStatus = "cancelled";
+            
+            let doctorInfo = null;
             try {
-                await sendAppointmentCancelledNotification(appointment);
+                const doctorResponse = await fetch(`${DOCTOR_SERVICE_URL}/api/doctors/${appointment.doctorId}`);
+                if (doctorResponse.ok) {
+                    doctorInfo = await doctorResponse.json();
+                }
+            } catch (err) {
+                console.warn("Failed to fetch doctor details for cancellation notification:", err.message);
+            }
+
+            try {
+                await sendAppointmentCancelledNotification(appointment, doctorInfo);
             } catch (notificationError) {
                 console.warn("Appointment rejected, but notification failed:", notificationError.message);
             }

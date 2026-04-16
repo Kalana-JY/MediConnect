@@ -44,7 +44,7 @@ const sendGenericNotification = async ({ recipientId, to, type, subject, message
   });
 };
 
-export const sendAppointmentBookedNotification = async (appointment) => {
+export const sendAppointmentBookedNotification = async (appointment, doctorInfo = null) => {
   const payload = {
     patientId: appointment.patientId || "",
     patientName: appointment.patientName || "Patient",
@@ -55,18 +55,28 @@ export const sendAppointmentBookedNotification = async (appointment) => {
     appointmentDate: appointment.appointmentDate,
     appointmentTime: appointment.appointmentTime,
     appointmentNo: appointment.appointmentNo,
+    doctorId: appointment.doctorId || "",
+    doctorEmail: doctorInfo?.email || "",
+    doctorPhone: doctorInfo?.phone || "",
   };
 
   await postNotification("/api/notifications/appointment-booked", payload);
 };
 
-export const sendAppointmentCancelledNotification = async (appointment) => {
+export const sendAppointmentCancelledNotification = async (appointment, doctorInfo = null) => {
   const payload = {
     patientId: appointment.patientId || "",
     patientName: appointment.patientName || "Patient",
     email: appointment.patientEmail || "",
     phone: appointment.patientPhone || "",
     appointmentNo: appointment.appointmentNo,
+    appointmentDate: appointment.appointmentDate,
+    appointmentTime: appointment.appointmentTime,
+    doctorName: appointment.doctorName || "",
+    hospitalName: appointment.hospitalName || "",
+    doctorId: appointment.doctorId || "",
+    doctorEmail: doctorInfo?.email || "",
+    doctorPhone: doctorInfo?.phone || "",
   };
 
   try {

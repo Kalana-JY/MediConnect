@@ -42,6 +42,13 @@ spec:
               value: "http://patient-service:3003"
             - name: APPOINTMENT_SERVICE_URL
               value: "http://appointment-service:3000"
+            - name: ADMIN_SERVICE_URL
+              value: "http://admin-service:3008"
+            - name: CLOUDINARY_URL
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: CLOUDINARY_URL
 ---
 apiVersion: v1
 kind: Service
