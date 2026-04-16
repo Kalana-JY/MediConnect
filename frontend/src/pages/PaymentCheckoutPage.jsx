@@ -24,7 +24,10 @@ const PaymentCheckoutPage = () => {
 
   const telemedicineSessionId = telemedicineSessionIdFromState || searchParams.get('sessionId') || '';
 
+  const [fetchedAppointment, setFetchedAppointment] = useState(null);
+
   const appointment = useMemo(() => {
+    if (fetchedAppointment) return fetchedAppointment;
     if (appointmentFromState) return appointmentFromState;
 
     return {
@@ -39,7 +42,7 @@ const PaymentCheckoutPage = () => {
       hospitalFee: toMoney(searchParams.get('hospitalFee'), 0),
       eChannellingFee: toMoney(searchParams.get('eChannellingFee'), 399),
     };
-  }, [appointmentFromState, searchParams]);
+  }, [appointmentFromState, searchParams, fetchedAppointment]);
 
   const appointmentType = appointment?.appointmentType || searchParams.get('appointmentType') || 'in-person';
 
@@ -95,6 +98,7 @@ const PaymentCheckoutPage = () => {
         }
 
         const confirmedAppointment = await appointmentApi.confirm(appointmentId);
+        setFetchedAppointment(confirmedAppointment);
 
         if (appointmentType === 'telemedicine' && !linkedTelemedicineSessionId) {
           const appointmentDate = confirmedAppointment?.appointmentDate || appointment.appointmentDate;
@@ -137,6 +141,16 @@ const PaymentCheckoutPage = () => {
       // Ignore cancellation sync failures; UI already reflects cancel path.
     });
   }, [status, orderId]);
+
+  useEffect(() => {
+    if (!appointmentFromState && !fetchedAppointment && appointmentId && status !== 'success') {
+      appointmentApi.getById(appointmentId)
+        .then(data => {
+          if (data) setFetchedAppointment(data);
+        })
+        .catch(err => console.error("Failed to fetch appointment backup", err));
+    }
+  }, [appointmentId, appointmentFromState, fetchedAppointment, status]);
 
   const initializePayment = async ({ orderId: incomingOrderId, amount, currency }) => {
     if (paymentInitializedRef.current) return true;

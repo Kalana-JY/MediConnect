@@ -8,7 +8,17 @@ import Admin from "../models/Admin.js";
  */
 export const register = async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email, password, inviteCode } = req.body;
+
+    // ── Invite code gate ─────────────────────────────────────────
+    const serverCode = process.env.ADMIN_INVITE_CODE;
+    if (!serverCode) {
+      // Env var not set — block all registrations to fail safely
+      return res.status(403).json({ error: "Admin registration is currently disabled." });
+    }
+    if (!inviteCode || inviteCode.trim() !== serverCode.trim()) {
+      return res.status(403).json({ error: "Invalid invite code. Contact the system owner." });
+    }
 
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
