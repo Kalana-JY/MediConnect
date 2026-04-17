@@ -32,7 +32,7 @@ const RegisterPage = () => {
 
   return (
     <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-[#f0f4f8] to-[#e0ecf4] p-6 py-12">
-      <div className="w-full max-w-lg">
+      <div className="w-full max-w-xl">
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-[#e8edf2]">
           <div className="text-center mb-7">
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#1a6fa0] to-[#3a8fc2] flex items-center justify-center mx-auto mb-4">
@@ -47,20 +47,20 @@ const RegisterPage = () => {
           {error && <div className="mb-5 p-3.5 bg-red-50 border border-red-200 rounded-xl text-red-600 text-[13.5px]">{error}</div>}
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <div className="grid grid-cols-[80px_1fr_1fr] gap-3">
-              <div className="flex flex-col gap-1.5">
+            <div className="grid grid-cols-12 gap-3">
+              <div className="flex flex-col gap-1.5 col-span-12 sm:col-span-2">
                 <label className="text-[12.5px] font-medium text-[#4a5568]">Title</label>
                 <select value={form.title} onChange={(e) => handleChange('title', e.target.value)}
                   className="h-12 px-2 rounded-xl border border-[#d0d8e0] bg-white text-[14px] text-[#1e2a3a] outline-none focus:border-[#1a6fa0]">
                   {['Mr', 'Mrs', 'Ms', 'Dr'].map(t => <option key={t} value={t}>{t}</option>)}
                 </select>
               </div>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-1.5 col-span-12 sm:col-span-5">
                 <label className="text-[12.5px] font-medium text-[#4a5568]">First Name *</label>
                 <input type="text" required value={form.firstName} onChange={(e) => handleChange('firstName', e.target.value)}
                   className="h-12 px-4 rounded-xl border border-[#d0d8e0] bg-white text-[14px] text-[#1e2a3a] outline-none focus:border-[#1a6fa0] focus:ring-2 focus:ring-[#1a6fa022] placeholder:text-[#a0aec0]" placeholder="John" />
               </div>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-1.5 col-span-12 sm:col-span-5">
                 <label className="text-[12.5px] font-medium text-[#4a5568]">Last Name *</label>
                 <input type="text" required value={form.lastName} onChange={(e) => handleChange('lastName', e.target.value)}
                   className="h-12 px-4 rounded-xl border border-[#d0d8e0] bg-white text-[14px] text-[#1e2a3a] outline-none focus:border-[#1a6fa0] focus:ring-2 focus:ring-[#1a6fa022] placeholder:text-[#a0aec0]" placeholder="Doe" />
@@ -92,20 +92,20 @@ const RegisterPage = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-3">
-              <div className="flex flex-col gap-1.5">
+            <div className="grid grid-cols-12 gap-3">
+              <div className="flex flex-col gap-1.5 col-span-12 sm:col-span-4">
                 <label className="text-[12.5px] font-medium text-[#4a5568]">Gender</label>
                 <select value={form.gender} onChange={(e) => handleChange('gender', e.target.value)}
                   className="h-12 px-3 rounded-xl border border-[#d0d8e0] bg-white text-[14px] text-[#1e2a3a] outline-none focus:border-[#1a6fa0]">
                   {['Male', 'Female', 'Other'].map(g => <option key={g} value={g}>{g}</option>)}
                 </select>
               </div>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-1.5 col-span-12 sm:col-span-4">
                 <label className="text-[12.5px] font-medium text-[#4a5568]">Date of Birth</label>
                 <input type="date" value={form.dateOfBirth} onChange={(e) => handleChange('dateOfBirth', e.target.value)}
                   className="h-12 px-3 rounded-xl border border-[#d0d8e0] bg-white text-[14px] text-[#1e2a3a] outline-none focus:border-[#1a6fa0]" />
               </div>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-1.5 col-span-12 sm:col-span-4">
                 <label className="text-[12.5px] font-medium text-[#4a5568]">Area</label>
                 <input type="text" value={form.area} onChange={(e) => handleChange('area', e.target.value)}
                   className="h-12 px-4 rounded-xl border border-[#d0d8e0] bg-white text-[14px] text-[#1e2a3a] outline-none focus:border-[#1a6fa0] focus:ring-2 focus:ring-[#1a6fa022] placeholder:text-[#a0aec0]" placeholder="Colombo" />

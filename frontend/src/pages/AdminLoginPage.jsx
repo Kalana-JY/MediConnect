@@ -67,10 +67,10 @@ const AdminLoginPage = () => {
               Create one
             </Link>
           </div>
-          <div className="mt-6 text-center text-[12.5px] text-gray-500">
-            <Link to="/login" className="text-[#f59e0b] no-underline hover:underline">Patient Login</Link>
-            {' · '}
-            <Link to="/doctor/login" className="text-[#f59e0b] no-underline hover:underline">Doctor Login</Link>
+          <div className="mt-6 pt-4 border-t border-white/5 text-center text-[12.5px] text-gray-500 flex items-center justify-center gap-3">
+            <Link to="/login" className="text-[#f59e0b] no-underline hover:underline font-medium">Patient Login</Link>
+            <span className="text-white/10">|</span>
+            <Link to="/doctor/login" className="text-[#f59e0b] no-underline hover:underline font-medium">Doctor Portal</Link>
           </div>
         </div>
       </div>

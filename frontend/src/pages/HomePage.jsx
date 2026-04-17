@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import { doctorApi } from '../services/api';
 import { Stethoscope, CalendarDays, BrainCircuit, Video, Pill, CreditCard, Building2 } from 'lucide-react';
 
+import TeleMedicineImg from '../assets/TeleMedicine.png';
+
 const HomePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -61,32 +63,43 @@ const HomePage = () => {
           <div className="absolute bottom-10 right-20 w-96 h-96 bg-[#3a8fc2] rounded-full blur-[150px]" />
         </div>
         <div className="max-w-7xl mx-auto px-6 py-20 md:py-28 relative z-10">
-          <div className="max-w-2xl">
-            <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-[13px] font-medium tracking-wide text-[#a0d8ef] mb-6 border border-white/10 flex items-center gap-2 w-fit">
-              <Building2 size={14} /> Sri Lanka's Smart Healthcare Platform
-            </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
-              Your Health,{' '}
-              <span className="bg-gradient-to-r from-[#5ab0d9] to-[#a0d8ef] bg-clip-text text-transparent">
-                Connected
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="max-w-2xl">
+              <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-[13px] font-medium tracking-wide text-[#a0d8ef] mb-6 border border-white/10 flex items-center gap-2 w-fit">
+                <Building2 size={14} /> Sri Lanka's Smart Healthcare Platform
               </span>
-            </h1>
-            <p className="mt-5 text-[17px] text-[#b0c8d8] leading-relaxed max-w-lg">
-              Book appointments, consult doctors via video, get AI-powered health suggestions, and manage your complete healthcare journey — all in one place.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                to="/doctors"
-                className="px-7 py-3.5 bg-gradient-to-r from-[#1a6fa0] to-[#3a8fc2] text-white font-semibold rounded-xl no-underline transition-all duration-300 hover:shadow-lg hover:shadow-[#1a6fa055] hover:scale-[1.03] text-[15px]"
-              >
-                Find a Doctor
-              </Link>
-              <Link
-                to="/symptom-checker"
-                className="px-7 py-3.5 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 no-underline transition-all duration-300 hover:bg-white/20 text-[15px]"
-              >
-                Check Symptoms
-              </Link>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
+                Your Health,{' '}
+                <span className="bg-gradient-to-r from-[#5ab0d9] to-[#a0d8ef] bg-clip-text text-transparent">
+                  Connected
+                </span>
+              </h1>
+              <p className="mt-5 text-[17px] text-[#b0c8d8] leading-relaxed max-w-lg">
+                Book appointments, consult doctors via video, get AI-powered health suggestions, and manage your complete healthcare journey — all in one place.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-4">
+                <Link
+                  to="/doctors"
+                  className="px-7 py-3.5 bg-gradient-to-r from-[#1a6fa0] to-[#3a8fc2] text-white font-semibold rounded-xl no-underline transition-all duration-300 hover:shadow-lg hover:shadow-[#1a6fa055] hover:scale-[1.03] text-[15px]"
+                >
+                  Find a Doctor
+                </Link>
+                <Link
+                  to="/symptom-checker"
+                  className="px-7 py-3.5 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 no-underline transition-all duration-300 hover:bg-white/20 text-[15px]"
+                >
+                  Check Symptoms
+                </Link>
+              </div>
+            </div>
+            <div className="hidden lg:block relative">
+              <div className="absolute -inset-4 bg-gradient-to-tr from-[#5ab0d9]/20 to-transparent rounded-full blur-3xl animate-pulse" />
+              <img 
+                src={TeleMedicineImg} 
+                alt="Telemedicine Service" 
+                className="relative w-full h-auto drop-shadow-2xl rounded-2xl animate-float transition-all duration-500 hover:scale-[1.02]"
+                style={{ filter: 'drop-shadow(0 20px 50px rgba(0,0,0,0.3))' }}
+              />
             </div>
           </div>
         </div>

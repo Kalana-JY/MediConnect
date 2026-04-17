@@ -74,10 +74,10 @@ const LoginPage = () => {
             Don't have an account?{' '}
             <Link to="/register" className="text-[#1a6fa0] font-semibold no-underline hover:underline">Sign Up</Link>
           </div>
-          <div className="mt-3 text-center text-[12.5px] text-[#8a9bae]">
-            Are you a doctor? <Link to="/doctor/login" className="text-[#1a6fa0] no-underline hover:underline">Doctor Login</Link>
-            {' · '}
-            <Link to="/admin/login" className="text-[#1a6fa0] no-underline hover:underline">Admin</Link>
+          <div className="mt-4 pt-4 border-t border-[#e8edf2] text-center text-[12.5px] text-[#8a9bae] flex items-center justify-center gap-3">
+            <Link to="/doctor/login" className="text-[#1a6fa0] no-underline hover:underline font-medium">Doctor Login</Link>
+            <span className="text-[#d0d8e0]">|</span>
+            <Link to="/admin/login" className="text-[#1a6fa0] no-underline hover:underline font-medium">Admin Portal</Link>
           </div>
         </div>
       </div>
