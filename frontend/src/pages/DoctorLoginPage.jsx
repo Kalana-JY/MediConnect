@@ -68,8 +68,10 @@ const DoctorLoginPage = () => {
           <div className="mt-6 text-center text-[13.5px] text-[#6b7b8d]">
             New doctor? <Link to="/doctor/register" className="text-[#0d5f3a] font-semibold no-underline hover:underline">Register Here</Link>
           </div>
-          <div className="mt-2 text-center text-[12.5px] text-[#8a9bae]">
-            <Link to="/login" className="text-[#1a6fa0] no-underline hover:underline">Patient Login</Link>
+          <div className="mt-4 pt-4 border-t border-[#e8edf2] text-center text-[12.5px] text-[#8a9bae] flex items-center justify-center gap-3">
+            <Link to="/login" className="text-[#1a6fa0] no-underline hover:underline font-medium">Patient Login</Link>
+            <span className="text-[#d0d8e0]">|</span>
+            <Link to="/admin/login" className="text-[#1a6fa0] no-underline hover:underline font-medium">Admin Portal</Link>
           </div>
         </div>
       </div>
